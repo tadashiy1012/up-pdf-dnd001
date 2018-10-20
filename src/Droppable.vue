@@ -9,23 +9,32 @@
 <script>
 let tgt = null;
 export default {
+    props: ['cellIndex'],
     methods: {
-        start: (ev) => {
-            console.log(ev.target);
+        start: function(ev) {
             tgt = ev.target;
             ev.dataTransfer.setData('tgt', tgt.innerHTML);
         },
-        over: (ev) => {
+        over: function(ev) {
             ev.preventDefault();
             ev.dataTransfer.dropEffect = 'move';
         },
-        leave: (ev) => {
+        leave: function(ev) {
             ev.preventDefault();
         },
-        drop: (ev) => {
+        drop: function(ev) {
             ev.stopPropagation();
             tgt.innerHTML = ev.target.innerHTML;
             ev.target.innerHTML = ev.dataTransfer.getData('tgt');
+            const cellIdx = this.cellIndex;
+            const bookIdx = parseInt(this.$children[0].$el.children[1].value);
+            console.log(cellIdx, bookIdx);
+            const indexs = this.$store.getters.indexs.slice();
+            const tmp = indexs[bookIdx];
+            indexs[bookIdx] = indexs[cellIdx];
+            indexs[cellIdx] = tmp;
+            console.log(indexs);
+            this.$store.dispatch('setIndexs', indexs);
         }
     }
 }

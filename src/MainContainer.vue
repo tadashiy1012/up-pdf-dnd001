@@ -3,6 +3,7 @@
         <h1>up-pdf-dnd-table001</h1>
         <upload-form />
         <book-table />
+        <book-table />
     </div>
 </template>
 <script>

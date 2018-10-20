@@ -9,19 +9,35 @@ Vue.use(Vuex);
 
 const store = {
     state: {
-        books: []
+        books: [],
+        indexs: [],
+        lastIndex: -1
     },
     getters: {
         books: state => state.books,
+        indexs: state => state.indexs,
+        lastIndex: state => state.lastIndex
     },
     mutations: {
         addBook(state, payload) {
-            state.books = [...state.books, payload.book]
+            state.books = [...state.books, payload.book];
+        },
+        setIndexs(state, payload) {
+            state.indexs = payload.indexs;
+        },
+        setLastIndex(state, payload) {
+            state.lastIndex = payload.lastIndex;
         }
     },
     actions: {
-        addBook({commit}, payload) {
-            commit('addBook', payload);
+        addBook({commit, state}, book) {
+            commit('addBook', {book});
+            commit('setLastIndex', {
+                lastIndex: state.books.lastIndexOf(book)
+            });
+        },
+        setIndexs({commit}, indexs) {
+            commit('setIndexs', {indexs});
         }
     }
 };

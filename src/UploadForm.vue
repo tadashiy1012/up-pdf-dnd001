@@ -27,7 +27,10 @@ export default {
                         viewport: viewport
                     });
                     const url = canvas.toDataURL('image/png');
-                    this.$store.dispatch('addBook', {book: url});
+                    this.$store.dispatch('addBook', url);
+                    const indexs = this.$store.getters.indexs;
+                    const last = this.$store.getters.lastIndex;
+                    this.$store.dispatch('setIndexs',[...indexs, last]);
                 })();
             });
             const fd = new FormData(ev.target);

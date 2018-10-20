@@ -1,8 +1,8 @@
 <template>
     <div id="bookTable">
         <template v-for="(book, idx) in books">
-            <droppable :key="idx">
-                <draggable>
+            <droppable :key="idx" :cell-index="idx">
+                <draggable :item-index="idx">
                     <img :src="book" />
                 </draggable>
             </droppable>
@@ -15,7 +15,13 @@ import Droppable from './Droppable.vue';
 export default {
     computed: {
         books: function() {
-            return this.$store.getters.books;
+            const indexs = this.$store.getters.indexs;
+            const books = this.$store.getters.books;
+            const ary = [];
+            indexs.forEach(elm => {
+                ary.push(books[elm]);
+            });
+            return ary;
         }
     },
     components: {
@@ -25,13 +31,13 @@ export default {
 </script>
 <style scoped>
 #bookTable {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    width: 1200px;
+    display: grid;
+    grid-template-columns: repeat(3, 200px);
+    grid-auto-rows: minmax(200px, auto);
+    gap: 8px 8px;
 }
-img {
-    height: 236px;
+#bookTable > div {
+    justify-self: center;
+    align-self: center;
 }
 </style>
